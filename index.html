@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FELIZ MES MI VIDA - TE AMO MUCHISIMO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playwrite+AU+QLD&display=swap');
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffd1dc;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 150px;
+            z-index: 1;
+        }
+
+        .envelope .front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+        }
+
+        .envelope .triangle-left,
+        .envelope .triangle-right,
+        .envelope .triangle-bottom,
+        .envelope .triangle-top {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            z-index: 4;
+        }
+
+        .envelope .triangle-left {
+            top: 50%;
+            left: 0;
+            border-width: 75px 0 75px 150px;
+            border-color: transparent transparent transparent #ff989e;
+            transform: translateY(-50%);
+        }
+
+        .envelope .triangle-right {
+            top: 50%;
+            right: 0;
+            border-width: 75px 150px 75px 0;
+            border-color: transparent #ff989e transparent transparent;
+            transform: translateY(-50%);
+        }
+
+        .envelope .triangle-bottom {
+            bottom: 0;
+            left: 50%;
+            border-width: 75px 150px 0 150px;
+            border-color: #ff858a transparent transparent transparent;
+            transform: translateX(-50%) rotate(180deg);
+        }
+
+        .envelope .triangle-top {
+            top: -100px;
+            left: 50%;
+            border-width: 0 125px 100px 125px;
+            border-color: #fe3334 transparent transparent transparent;
+            transform: translateX(-50%) scaleY(1);
+            z-index: 2;
+        }
+
+        .envelope .paper-square {
+            position: absolute;
+            width: 230px;
+            height: 200px;
+            background-color: #fcc2cb;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%) scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.5s ease-in-out;
+            z-index: 3;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 15px 15px 0 0;
+            clip-path: polygon(0 30px, 100% 30px, 100% 100%, 0 100%);
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .envelope.open .paper-square {
+            transform: translateX(-50%) scaleY(1);
+        }
+
+        .envelope .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #ff6f61;
+            z-index: -1;
+        }
+
+        .envelope .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background-color: #e55a50;
+            clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+            transform-origin: top;
+            transition: transform 0.5s;
+            z-index: 2;
+        }
+
+        .envelope.open .flap {
+            transform: rotateX(180deg);
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff6f61;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff3b3b;
+        }
+
+        .heart-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .heart {
+            width: 40px;
+            height: 40px;
+            background-color: #ca1400;
+            transform: rotate(45deg);
+            opacity: 0;
+            position: absolute;
+            top: calc(50% - 100px);
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: inherit;
+        }
+
+        .heart::before {
+            top: -20px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: -20px;
+        }
+
+        .heart-animate {
+            animation: floatUp 3s forwards;
+            opacity: 1;
+        }
+
+        .heart-left,
+        .heart-right {
+            width: 30px;
+            height: 30px;
+            background-color: #ca1400;
+            transform: rotate(45deg);
+            opacity: 0;
+            position: absolute;
+            top: calc(50% - 80px);
+        }
+
+        .heart-left {
+            left: calc(50% - 50px);
+        }
+
+        .heart-right {
+            left: calc(50% + 50px);
+        }
+
+        .heart-left::before,
+        .heart-left::after,
+        .heart-right::before,
+        .heart-right::after {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: inherit;
+        }
+
+        .heart-left::before,
+        .heart-right::before {
+            top: -15px;
+            left: 0;
+        }
+
+        .heart-left::after,
+        .heart-right::after {
+            top: 0;
+            left: -15px;
+        }
+
+        .heart-left-animate {
+            animation: floatUpLeft 3s forwards;
+            opacity: 1;
+        }
+
+        .heart-right-animate {
+            animation: floatUpRight 3s forwards;
+            opacity: 1;
+        }
+
+        .heart-disappear {
+            animation: disappear 1s forwards;
+        }
+
+        .white-heart {
+            width: 20px;
+            height: 20px;
+            background-color: #ffffff;
+            transform: rotate(45deg);
+            margin: 10px auto 0;
+            animation: heartbeat 1s infinite;
+        }
+
+        .white-heart::before,
+        .white-heart::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: inherit;
+        }
+
+        .white-heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .white-heart::after {
+            top: 0;
+            left: -10px;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translate(-50%, -50%) rotate(45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -1200%) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatUpLeft {
+            0% {
+                transform: translate(-50%, -50%) rotate(45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-150%, -1200%) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatUpRight {
+            0% {
+                transform: translate(-50%, -50%) rotate(45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(50%, -1200%) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes disappear {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1) rotate(45deg);
+            }
+            50% {
+                transform: scale(1.2) rotate(45deg);
+            }
+        }
+
+        .paper-text {
+            font-family: 'Playwrite AU QLD', sans-serif;
+            font-size: 11px;
+            color: #333;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 5;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .paper-text.visible {
+            opacity: 1;
+        }
+
+        .lyrics {
+            font-family: 'Playwrite AU QLD', sans-serif;
+            font-size: 12px;
+            color: #333;
+            text-align: left;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 5;
+        }
+
+        .lyrics.visible {
+            opacity: 1;
+        }
+        .lyrics {
+        font-family: 'Playwrite AU QLD', sans-serif;
+        font-size: 12px;
+        color: #333;
+        text-align: center; /* Centra horizontalmente */
+        margin-top: 20px;
+        opacity: 0;
+        transition: opacity 0.5s;
+        z-index: 5;
+        white-space: pre-wrap; /* Permite saltos de línea */
+        line-height: 1.5; /* Espaciado entre líneas */
+    }
+    
+    /* FOTOS */body {
+            font-family: Arial, sans-serif;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1000px; /* Ajusta el ancho máximo según sea necesario */
+            margin: 0 auto; /* Centra la galería horizontalmente */
+        }
+
+        .photo {
+            width: 180px; /* Ancho del marco polaroid */
+            background: white;
+            padding: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            transition: transform 0.3s;
+            margin-bottom: 20px; /* Espacio inferior entre las fotos */
+        }
+
+        .photo img {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.3s; /* Transición para la animación */
+        }
+
+        .caption {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Animación de sacudir al pasar el mouse */
+        .photo img:hover {
+            animation: shake 0.5s;
+            animation-iteration-count: infinite;
+        }
+
+        /* Animación al hacer clic */
+        .photo img:active {
+            animation: clickEffect 0.3s;
+        }
+
+        /* Definición de la animación de sacudir */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        /* Definición de la animación al hacer clic */
+        @keyframes clickEffect {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 700px;
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-content img {
+            max-width: 100%; /* Asegura que la imagen se ajuste al modal */
+            height: auto;
+            max-height: 80vh; /* Asegura que la imagen quepa en la pantalla */
+            margin-right: 20px;
+        }
+
+        .modal-content p {
+            flex: 1;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1000px; /* Ajusta el ancho máximo según sea necesario */
+            margin: 0 auto; /* Centra la galería horizontalmente */
+        }
+
+        .photo {
+            width: 180px; /* Ancho del marco polaroid */
+            background: white;
+            padding: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            transition: transform 0.3s;
+            margin-bottom: 20px; /* Espacio inferior entre las fotos */
+        }
+
+        .photo img {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.3s; /* Transición para la animación */
+        }
+
+        .caption {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Animación de sacudir al pasar el mouse */
+        .photo img:hover {
+            animation: shake 0.5s;
+            animation-iteration-count: infinite;
+        }
+
+        /* Animación al hacer clic */
+        .photo img:active {
+            animation: clickEffect 0.3s;
+        }
+
+        /* Definición de la animación de sacudir */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        /* Definición de la animación al hacer clic */
+        @keyframes clickEffect {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 700px;
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-content img {
+            max-width: 100%; /* Asegura que la imagen se ajuste al modal */
+            height: auto;
+            max-height: 80vh; /* Asegura que la imagen quepa en la pantalla */
+            margin-right: 20px;
+        }
+
+        .modal-content p {
+            flex: 1;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .contenedor{
+            display: flex;
+            flex-direction: column; /* Alinea los elementos verticalmente */
+            align-items: center; /* Centra los elementos horizontalmente */
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .carta{
+            margin-top: 360%;
+            margin-bottom: 35%;
+        }
+        
+        .titulo{
+            text-align: center;
+            font-family: 'Playwrite AU QLD', sans-serif;
+        }
+
+        .photo.video {
+            /* Estilos específicos para contenedores de video */
+            max-width: 240px; /* Ancho mayor para videos */
+            border: 2px solid #ccc; /* Borde diferente para videos */
+            padding: 15px; /* Espaciado mayor para videos */
+        }
+
+        
+
+        .photo video {
+            max-width: 100%; /* Ajusta el ancho máximo al contenedor */
+            height: auto; /* Ajusta la altura automáticamente */
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: block; /* Asegura que los elementos de media ocupen todo el espacio del contenedor */
+        }
+
+        .modal-content video {
+            max-width: 65%; /* Asegura que el video se ajuste al modal */
+            max-height: 80vh; /* Asegura que el video quepa en la pantalla */
+            border: none;
+            outline: none; /* Elimina el borde de enfoque del video */
+        }
+
+        .video{
+            border: none;
+        }
+
+        .modal{
+            border: none;
+        }
+        
+        .descripcion{
+            font-family: 'Playwrite AU QLD', sans-serif;
+            text-align: center  ;
+            margin-left: 10px;
+
+        }
+
+        .caption{
+            font-family: 'Playwrite AU QLD', sans-serif;
+        }
+
+        .blancoYnegro{
+            filter: grayscale(100%) blur(0px); /* Ajusta el valor de blur (5px) según tus necesidades */
+                }
+
+        .blancoYnegro:hover{
+            filter: none; /* Quitar los filtros cuando se pase el mouse por encima */
+        }
+
+       
+        
+        .modal .modal-content .descripcion .modal-text {
+            font-weight: normal; /* Evitar negrilla */
+            /* Otros estilos necesarios */
+}
+        
+
+    </style>
+</head>
+<body>
+
+    <div class="contenedor">
+
+        <div class="carta">
+            <div class="container">
+                <div class="heart-container">
+                    <div class="heart heart-center"></div>
+                    <div class="heart-left"></div>
+                    <div class="heart-right"></div>
+                </div>
+                <div class="envelope">
+                    <div class="triangle-left"></div>
+                    <div class="triangle-right"></div>
+                    <div class="triangle-bottom"></div>
+                    <div class="triangle-top"></div>
+                    <div class="paper-square">
+                        <div class="paper-text"><br>
+                            Amor, cada día contigo es un regalo. Te amo más de lo que las palabras pueden expresar por eso lo hago con está canción. Feliz mes mi vida.
+                        </div>
+                        <div class="white-heart"></div>
+                    </div>
+                    <div class="flap"></div>
+                    <div class="front"></div>
+                    <div class="back"></div>
+                </div>
+
+                <audio id="musicaFondo" loop>
+                    <source src="audio/UP PIANO.mp3" type="audio/mpeg">
+                    Tu navegador no soporta la reproducción de audio.
+                </audio>
+
+                <div class="buttons">
+                    <!-- Botón "Iniciar música" -->
+                    <button id="iniciarMusica">Iniciar música</button>
+                    <!-- Botón "Abrir carta" -->
+                    <button id="openButton" style="display:none;">Abrir carta</button>
+                    <!-- Botón "Cerrar carta" -->
+                    <button id="closeButton" style="display:none;">Cerrar carta</button>
+                </div>
+        
+                
+                <div id="lyricsContainer" class="lyrics"></div>
+            </div>
+
+            
+        
+            <audio id="backgroundAudio1" loop>
+                <source src="audio/ALMA DINAMITA LIVE.mp3" type="audio/mp3">
+            </audio>
+            
+            <audio id="backgroundAudio2" loop>
+                <source src="audio/MILO J  LIVE SET  MAI.mp3" type="audio/mp3">
+            </audio>
+        
+            <audio id="backgroundAudio3" loop>
+                <source src="audio/TENGO GANAS - ANDRES CEPEDA.mp3" type="audio/mp3">
+            </audio>
+        
+            <audio id="backgroundAudio4" loop>
+                <source src="audio/DESPIERTO - SILVESTRE.mp3" type="audio/mp3">
+            </audio>
+        
+            <audio id="backgroundAudio5" loop>
+                <source src="audio/LA NOTA MÁS LINDA.mp3" type="audio/mp3">
+            </audio>
+            <audio id="backgroundAudio6" loop>
+                <source src="audio/UNA Y OTRA VEZ - MANUEL MEDRANO.mp3" type="audio/mp3">
+            </audio>
+            <audio id="backgroundAudio7" loop>
+                <source src="audio/COSAS QUE NO TE DIJE - Saiko.mp3" type="audio/mp3">
+            </audio>
+            <audio id="backgroundAudio8" loop>
+                <source src="audio/LA MUJER PERFECTA - KURT.mp3" type="audio/mp3">
+            </audio>
+            <audio id="backgroundAudio9" loop>
+                <source src="audio/ERES PARA MI - DUKI.mp3" type="audio/mp3">
+            </audio>
+            
+        </div>
+        
+        
+        <div class="fotosT">
+            <h1 class="titulo">Recuerdos</h1>
+            <div class="gallery">
+                <!-- Primera Galería -->
+                <div class="photo">
+                    <a href="#modal1">
+                        <video muted autoplay loop class="blancoYnegro">
+                            <source src="videos/video1.mp4" type="video/mp4">
+                            Tu navegador no soporta el video HTML5.
+                        </video>
+                    </a>
+                    <div class="caption">El Día que Todo Comenzó</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal2">
+                        <video muted autoplay loop class="blancoYnegro">
+                            <source src="videos/video2.mp4" type="video/mp4">
+                            Tu navegador no soporta el video HTML5.
+                        </video>
+                    </a>
+                    <div class="caption">Primeros Días Juntos</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal3">
+                        <video muted autoplay loop class="blancoYnegro">
+                            <source src="videos/video 3.mp4" type="video/mp4">
+                            Tu navegador no soporta el video HTML5.
+                        </video>
+                    </a>
+                    <div class="caption">Nervios y Esmalte</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal4">
+                        <video muted autoplay loop class="blancoYnegro">
+                            <source src="videos/video4.mp4" type="video/mp4">
+                            Tu navegador no soporta el video HTML5.
+                        </video>
+                    </a>
+                    <div class="caption">Destellos de Amor en Sapienza</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal5">
+                        <img src="fotos/foto1.jpeg" alt="Foto 5" class="blancoYnegro">
+                    </a>
+                    <div class="caption">Nuestro Secreto Especial</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal6">
+                        <video muted autoplay loop class="blancoYnegro">
+                            <source src="videos/video5.mp4" type="video/mp4">
+                            Tu navegador no soporta el video HTML5.
+                        </video>
+                    </a>
+                    <div class="caption">Cada Momento Contigo es Especial</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal7">
+                        <video muted autoplay loop class="blancoYnegro">
+                            <source src="videos/video6.mp4" type="video/mp4">
+                            Tu navegador no soporta el video HTML5.
+                        </video>
+                    </a>
+                    <div class="caption">Una Noche de Café en WAOO</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal8">
+                        <video muted autoplay loop class="blancoYnegro">
+                            <source src="videos/video7.mp4" type="video/mp4">
+                            Tu navegador no soporta el video HTML5.
+                        </video>
+                    </a>
+                    <div class="caption">Risas, Lágrimas y Felicidad</div>
+                </div>
+            </div>
+        
+            <!-- Segunda Galería Duplicada -->
+            <div class="gallery">
+                <div class="photo">
+                    <a href="#modal9">
+                        <video muted autoplay loop class="blancoYnegro">
+                            <source src="videos/video8.mp4" type="video/mp4">
+                            Tu navegador no soporta el video HTML5.
+                        </video>
+                    </a>
+                    <div class="caption">Una Tarde en PopIce</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal10">
+                        <video muted autoplay loop class="blancoYnegro">
+                            <source src="videos/video9.mp4" type="video/mp4">
+                            Tu navegador no soporta el video HTML5.
+                        </video>
+                    </a>
+                    <div class="caption">Revivir los recuerdos es volver a sentir.</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal11">
+                        <img src="fotos/foto2.jpeg" alt="Foto 5" class="blancoYnegro">
+                    </a>
+                    <div class="caption">Flores de Emoción</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal12">
+                        <video muted autoplay loop class="blancoYnegro">
+                            <source src="videos/video10.mp4" type="video/mp4">
+                            Tu navegador no soporta el video HTML5.
+                        </video>
+                    </a>
+                    <div class="caption">Amor en Cada Instante</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal13">
+                        <video muted autoplay loop class="blancoYnegro">
+                            <source src="videos/video11.mp4" type="video/mp4">
+                            Tu navegador no soporta el video HTML5.
+                        </video>
+                    </a>
+                    <div class="caption">Aventura en el Cine</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal14">
+                        <img src="fotos/foto3.jpg" alt="Foto 5" class="blancoYnegro">
+                    </a>
+                    <div class="caption">Delicias en Pancho Villa: Sabores, Risas y Felicidad</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal15">
+                        <img src="fotos/foto4.jpeg" alt="Foto 5" class="blancoYnegro">
+                    </a>
+                    <div class="caption">Flores Doradas: Destellos de Emoción</div>
+                </div>
+                <div class="photo">
+                    <a href="#modal16">
+                        <video muted autoplay loop class="blancoYnegro">
+                            <source src="videos/video12.mp4" type="video/mp4">
+                            Tu navegador no soporta el video HTML5.
+                        </video>
+                    </a>
+                    <div class="caption">Dulces Sueños: Belleza Tranquila</div>
+                </div>
+            </div>
+        <!-- Tercera Galería Duplicada -->
+        <div class="gallery">
+            <div class="photo">
+                <a href="#modal17">
+                    <video muted autoplay loop class="blancoYnegro">
+                        <source src="videos/video13.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                </a>
+                <div class="caption">Caminata de Amor y Cadenitas</div>
+            </div>
+            <div class="photo">
+                <a href="#modal18">
+                    <video muted autoplay loop class="blancoYnegro">
+                        <source src="videos/video14.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                </a>
+                <div class="caption">Atardecer en el Mirador del Cielo</div>
+            </div>
+            <div class="photo">
+                <a href="#modal19">
+                    <video muted autoplay loop class="blancoYnegro">
+                        <source src="videos/video15.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                </a>
+                <div class="caption">Peli en casa</div>
+            </div>
+            <div class="photo">
+                <a href="#modal20">
+                    <video muted autoplay loop class="blancoYnegro">
+                        <source src="videos/video16.mp4 " type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                </a>
+                <div class="caption">La Ratica más linda</div>
+            </div>
+            <div class="photo">
+                <a href="#modal21">
+                    <video muted autoplay loop class="blancoYnegro">
+                        <source src="videos/video17.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                </a>
+                <div class="caption">Un Día Especial para Nosotros</div>
+            </div>
+            <div class="photo">
+                <a href="#modal22">
+                    <video muted autoplay loop class="blancoYnegro">
+                        <source src="videos/video18.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                </a>
+                <div class="caption">Peinándola con Amor</div>
+            </div>
+            <div class="photo">
+                <a href="#modal23">
+                    <video muted autoplay loop class="blancoYnegro">
+                        <source src="videos/video19.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                </a>
+                <div class="caption">El Cumpleaños de Mi Amorcito</div>
+            </div>
+            <div class="photo">
+                <a href="#modal24">
+                    <video muted autoplay loop class="blancoYnegro">
+                        <source src="videos/video20.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                </a>
+                <div class="caption">Celebrando Juntos</div>
+            </div>
+        </div>
+        
+        <div class="gallery">
+            <!-- Cuarta Galería -->
+            <div class="photo">
+                <a href="#modal25">
+                    <video muted autoplay loop class="blancoYnegro">
+                        <source src="videos/video21.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                </a>
+                <div class="caption">Eres Mi Todo</div>
+            </div>
+            <div class="photo">
+                <a href="#modal26">
+                    <video muted autoplay loop class="blancoYnegro">
+                        <source src="videos/video22.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                </a>
+                <div class="caption">¿Richard Ríos?</div>
+            </div>
+            <div class="photo">
+                <a href="#modal27">
+                    <video muted autoplay loop class="blancoYnegro">
+                        <source src="videos/video23.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                </a>
+                <div class="caption">Besos que Tocan el Cielo</div>
+            </div>
+            <div class="photo">
+                <a href="#modal28">
+                    <video muted autoplay loop class="blancoYnegro">
+                        <source src="videos/video24.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                </a>
+                <div class="caption">En fin...</div>
+            </div>
+        </div>
+
+        
+            <!-- Modals Primera Galería -->
+            <div id="modal1" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video1.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>El Día que Todo Comenzó</h2>
+                        <p>El día que te conocí, fuimos a Ábrego y en todo el camino hablamos de tantas cosas sin conocernos realmente. Fue increíble cómo, a pesar de ser extraños, sentimos una conexión tan fuerte desde el principio. Recuerdo que cuando llegamos, comenzamos a dar vueltas en el parque, disfrutando del momento y la compañía.
+        
+                            De repente, una personita especial me besó de la nada, llenando el instante de sorpresa y emoción. Poco después, ya conocías a mis amigos más cercanos, y en un abrir y cerrar de ojos, ya me habías visto borracho. Ese día fue mágico y marcó el inicio de algo hermoso entre nosotros.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal2" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video2.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Primeros Días Juntos</h2>
+                        <p>Este video captura esos primeros días después de conocernos, cuando la emoción y la timidez se mezclaban. Me daba pena ir a tu casa, pero cada vez que estaba contigo, era increíblemente feliz. Esos momentos de risas, conversaciones y pequeños gestos hicieron que nuestra conexión se volviera aún más fuerte.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal3" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video 3.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Nervios y Esmalte</h2>
+                        <p>El día que fui a tu casa y, aunque estaba nervioso, decidí pintarte las uñas. Quería tanto hacerte feliz que aprendí a hacerlo solo por ti. Entre risas y esmalte, esos momentos hicieron que nuestra conexión se volviera aún más especial.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal4" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video4.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Destellos de Amor en Sapienza</h2>
+                        <p>La noche que fuimos a Sapienza me llena de calidez. Mientras esperábamos nuestra pizza, tu viendo Snoopy. Esa ternura me enamora cada día más. En ese momento, éramos solo tú y yo, compartiendo la belleza de lo simple. Tu risa y tu manera de disfrutar lo cotidiano son lo que más amo de ti. Gracias por hacer cada momento especial.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal5" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <img src="fotos/foto1.jpeg" alt="Foto 5">
+                    <div class="descripcion">
+                        <h2>Nuestro Secreto Especial</h2>
+                        <p>Esta foto es un tesoro que guardamos como nuestro secreto especial. Captura una noche memorable ya sabes donde en la que exploramos juntos algo nuevo y emocionante. Recuerdo estar nervioso porque era la primera vez que vivía una experiencia así. Es una foto que refleja nuestra complicidad y amor.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal6" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video5.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Cada Momento Contigo es Especial</h2>
+                        <p>Cada momento que he compartido contigo es muy especial. Desde nuestras risas en los días soleados hasta los abrazos reconfortantes en las noches frías, cada instante es una celebración de nuestro amor y conexión.
+        
+                            Cada vez que estoy contigo, el tiempo parece detenerse y el mundo se vuelve un lugar más brillante.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal7" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video6.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Una Noche de Café en WAOO</h2>
+                        <p>Una noche linda que pasamos juntos en WAOO. Mientras el frío se sentía en el aire, nos refugiamos en el acogedor ambiente del café. Fue mágico compartir conversaciones íntimas y risas que llenaron de calidez cada rincón.
+        
+                            Cada momento contigo es una joya que atesoro en mi corazón.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal8" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video7.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Risas, Lágrimas y Felicidad</h2>
+                        <p>Esos momentos preciosos que pasamos afuera de tu casa, compartiendo risas, lágrimas y profundas conversaciones. Estar junto a ti es lo que más me llena de felicidad, y verte sonreír y disfrutar cada momento juntos es mi mayor alegría.</p>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Modals Segunda Galería Duplicada -->
+            <div id="modal9" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video8.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Una Tarde en PopIce</h2>
+                        <p>Esos momentos preciosos que pasamos afuera de tu casa, compartiendo risas, lágrimas y profundas conversaciones. Estar junto a ti es lo que más me llena de felicidad, y verte sonreír y disfrutar cada momento juntos es mi mayor alegría.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal10" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video9.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Revivir los recuerdos es volver a sentir.</h2>
+                        <p>Gracias por ser la luz que ilumina mi vida, por tu amor incondicional y por hacer cada día especial. Te amo más de lo que las palabras pueden expresar, y estoy agradecido por tenerte a mi lado en este viaje llamado vida.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal11" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <img src="fotos/foto2.jpeg" alt="Foto 5">
+                    <div class="descripcion">
+                        <h2>Flores de Emoción</h2>
+                        <p>Recuerdo el día que te di flores por primera vez como si fuera ayer. Estabas tan linda, con esa sonrisa que siempre me desarma. Aunque al principio me preocupé al ver tus lágrimas, pronto entendí que llorabas de emoción. Fue un momento increíble ver cómo se iluminaba tu rostro al saber que te había sorprendido de esa manera. Sentirte feliz con ese gesto sencillo me hizo sentir completo y muy feliz. Fue un día especial, de esos que quedan grabados en la memoria para siempre.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal12" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video10.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Amor en Cada Instante</h2>
+                        <p>Este video es un hermoso recordatorio de lo felices y cariñosos que somos juntos. Cada vez que veo nuestras miradas, siento la profunda conexión que compartimos. Nuestro amor brilla en cada gesto y toque. Me encanta cómo nuestras manos se buscan instintivamente, reflejando la confianza y el cariño que nos tenemos.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal13" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video11.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Aventura en el Cine</h2>
+                        <p>Recordar nuestra salida al cine para ver Kung Fu Panda 4 siempre me hace sonreír. Fue una tarde llena de risas y complicidad. La forma en que compartimos palomitas y comentamos cada escena, sumergidos en la historia, fue simplemente mágica. Esa noche, entre carcajadas y abrazos, confirmamos una vez más que cualquier momento contigo se convierte en una experiencia especial.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal14" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <img src="fotos/foto3.jpg" alt="Foto 5">
+                    <div class="descripcion">
+                        <h2>Delicias en Pancho Villa: Sabores, Risas y Felicidad</h2>
+                        <p>Recordar aquel día en Pancho Villa, disfrutando de nuestros tacos favoritos, siempre me saca una sonrisa. Nos picamos con la salsa pero eso solo añadió más diversión. Compartir esos momentos contigo, entre risas y buenos sabores, es lo que más atesoro. Gracias por hacer cada comida juntos una experiencia llena de felicidad</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal15" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <img src="fotos/foto4.jpeg" alt="Foto 5">
+                    <div class="descripcion">
+                        <h2>Flores Doradas: Destellos de Emoción</h2>
+                        <p>El día que te regalé flores amarillas sigue vivo en mi memoria como un cuadro iluminado por el sol. Tu rostro se iluminó con una sonrisa radiante, y tus ojos brillaban con la emoción contenida en cada pétalo dorado. Ver cómo te emocionaste con ese gesto sencillo llenó mi corazón de alegría y gratitud. Fue un momento único, donde el significado simbólico de las flores amarillas se entrelazó con la belleza de nuestro amor.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal16" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video12.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Dulces Sueños: Belleza Tranquila</h2>
+                        <p>Recuerdo el día en tu casa cuando te quedaste dormida a mi lado. Te veías tan linda, con tu rostro tranquilo y sereno. Observándote dormir, me llené de una paz indescriptible, sintiéndome aún más conectado contigo. Ese momento de quietud, donde el simple acto de estar juntos se volvió tan significativo, es un testimonio silencioso de nuestro amor. Fue una escena de pura ternura que siempre atesoraré.</p>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Modals Tercera Galería Duplicada -->
+            <div id="modal17" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video13.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Caminata de Amor y Cadenitas</h2>
+                        <p>El día que fuimos al Agua de la Virgen por la mañana y compramos nuestras cadenitas en conjunto me encanto mucho. Aunque madrugar no es lo mío y caminar tampoco, lo hice por ti, y cada momento a tu lado valió la pena. Fue una mañana llena de amor. Al elegir nuestras cadenitas, sentí que estábamos sellando un pequeño pacto de amor y unión. Esa ida al agua de la virgen es un hermoso testimonio de cuánto significas para mí y de cómo cada instante contigo se convierte en un tesoro inolvidable.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal18" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video14.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>    Atardecer en el Mirador del Cielo</h2>
+                        <p>La vez que fuimos al Mirador del Cielo. La vista era impresionante, pero lo mejor de todo fue compartir esa experiencia contigo. Disfrutamos de una merienda rica, y cada bocado se hizo aún más especial con la belleza del paisaje que nos rodeaba. Ver el atardecer juntos, con los colores del cielo reflejándose en tus ojos, fue un momento mágico. Sentir tu mano en la mía mientras el sol se ocultaba en el horizonte me llenó de una paz y felicidad indescriptibles.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal19" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video15.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Peli en casa</h2>
+                        <p>La vez que viniste a mi casa y vimos la película Patos es un recuerdo que siempre me hace sonreír. La película nos encantó, y no pudimos dejar de reírnos con cada escena divertida. Sin embargo, lo mejor de todo fue la compañía. Compartir ese momento contigo, disfrutando de la película y riéndonos juntos, hizo que la experiencia fuera fenomenal. </p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal20" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video16.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>La Ratica más linda</h2>
+                        <p>Otro momento especial fue cuando viniste a mi casa y te pusiste a jugar Valorant, eres toda una Ratica. Para mí, el simple hecho de tener tu compañía en mi cuarto fue más que suficiente. Fue una noche maravillosa mientras yo admiraba tu  concentración en el juego. Me encanta tener la oportunidad de compartir estos momentos contigo.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal21" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video17.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Un Día Especial para Nosotros</h2>
+                        <p>El Día de la Madre que le presenté a toda mi familia por parte de mi papá fue un momento muy significativo para ambos. Difrutaste mucho y mi familia te recibió muy bien. Estaba muy feliz por eso, también nos templamos jajaja</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal22" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video18.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Peinándola con Amor</h2>
+                        <p>Recordar el día que te peiné donde Marcos es algo que me gusta muchisimo. Cada movimiento del peine fue un gesto de amor, cuidado y ternura hacia ti. Ver cómo tu rostro se iluminaba con una sonrisa mientras te hacía sentir especial, hizo que ese momento fuera aún más precioso. El simple acto de compartir ese tiempo juntos, cuidando de ti de esa manera me encanta.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal23" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video19.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>El Cumpleaños de Mi Amorcito</h2>
+                        <p>Mi amor, tu cumpleaños es uno de los días más especiales para mí. Aunque sé que no te di el regalo más grande, me alegra tanto saber que te gustó, porque lo hice con todo mi amor. Estoy tan agradecido de tenerte a mi lado, de que hayas elegido quedarte conmigo. Eres mi razón de sonreír todos los días, y cada momento contigo es un tesoro que valoro infinitamente.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal24" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video20.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Celebrando Juntos</h2>
+                        <p>El día que me acompañaste al cumpleaños de Marcos me gusto. La pasamos tan bien juntos, disfrutando de momentos especiales y compartiendo delicias que nos hicieron sentir tan cercanos, después de la fiesta hicimos cosas muy ricas. Tu compañía hizo que ese día fuera aún más especial y significativo para mí. Estoy agradecido por cada instante que compartimos y por el amor que nos une. Eres mi alegría constante y mi apoyo incondicional.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modals Cuarta Galería -->
+            <div id="modal25" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video21.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Eres Mi Todo</h2>
+                        <p>No puedo dejar de pensar en la hermosa pareja que formamos. Cada momento a tu lado me hace sentir completo y feliz. Cuando estamos juntos, siento que no hay nada que no podamos superar. Eres mi refugio, mi paz, y mi alegría. Cada instante que paso lejos de ti, mi mente y mi corazón están contigo. Me haces muchísima falta cuando no estás a mi lado. Eres mi razón para sonreír y mi mayor motivación.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal26" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video  autoplay loop>
+                        <source src="videos/video22.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>¿Richard Ríos?</h2>
+                        <p>Cada vez que miro a nuestros ojos, no puedo evitar sonreír al ver lo felices que nos vemos. Nuestro amor brilla en cada gesto, en cada mirada, y en cada palabra. No hay nada que disfrute más que las bobadas de las que nos reímos juntos.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal27" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video23.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>Besos que Tocan el Cielo</h2>
+                        <p>Cada vez que nos besamos, me siento como si estuviera en un sueño. Tus besos me llevan a las nubes, donde solo existimos tú y yo, en un mundo lleno de amor y ternura. En esos momentos, todo se detiene y solo importa la conexión profunda que compartimos. Tus labios son mi refugio, y en cada beso encuentro la paz y la felicidad que mi corazón anhela. Gracias por hacerme sentir tan especial y por esos momentos mágicos que compartimos.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="modal28" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <video muted autoplay loop>
+                        <source src="videos/video24.mp4" type="video/mp4">
+                        Tu navegador no soporta el video HTML5.
+                    </video>
+                    <div class="descripcion">
+                        <h2>En fin...</h2>
+                        <p>Quiero que sepas cuánto te amo, aunque sé que no hay palabras suficientes para describir la magnitud de mis sentimientos por ti. Eres el centro de mi universo, la razón detrás de cada sonrisa y la inspiración en cada uno de mis días. Desde el momento en que te conocí, supe que eras alguien especial, pero con el tiempo, me he dado cuenta de que eres mucho más que eso: eres mi todo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+
+    <script>
+        
+        
+         const openButton = document.getElementById('openButton');
+    const closeButton = document.getElementById('closeButton');
+    const envelope = document.querySelector('.envelope');
+    const heart = document.querySelector('.heart');
+    const heartLeft = document.querySelector('.heart-left');
+    const heartRight = document.querySelector('.heart-right');
+    const paperText = document.querySelector('.paper-text');
+    const lyricsContainer = document.getElementById('lyricsContainer');
+        const songs = [
+        {
+            audio: backgroundAudio1,
+            lyrics: [
+            { time: 1, text: '...' },
+            { time: 5, text: 'Me gusta todo lo que sos, y un poco más' },
+            { time: 8, text: 'El barrio queda sin luz cuando no estás' },
+            { time: 12, text: 'Las caras cambian todas cuando vos llegás' },
+            { time: 15, text: 'La noche te sigue mientras vos girás' },
+            { time: 18, text: '...' },
+            {time: 19.5, text: 'Acá todos mueren por verte fumar'},
+            { time: 22, text: 'Tu magia está cerca y protege el lugar' },
+            { time: 27, text: 'Ahí voy a querer estar' },
+            { time: 29.5, text: 'Donde tu risa me saca a bailar' },
+            { time: 31, text: 'Cada vez que yo no me encuentro en mí, eh' },
+            { time: 35, text: 'Voy a vos para revivir, eh' },
+            {time: 40, text: 'Yo voy a estar ahí, yeh'},
+            { time: 42, text: 'Siempre podés venir' },
+            {time: 45, text: '…'}, 
+            { time: 47, text: 'Ella camina con su viajero' },
+            { time: 50, text: 'Entre desastres y prisioneros' },
+            {time: 53, text: 'Cuando el destino se pone austero'},
+            { time: 56, text: 'Sale al rescate lo verdadero' },
+            {time: 60, text: 'Ella camina con su viajero'},{ time: 64, text: 'Entre desastres y prisioneros' },
+            { time: 67, text: 'Cuando el destino se pone austero' },
+            { time: 70, text: 'Sale al rescate lo verdadero' },
+            { time: 73, text: 'TE AMO OJITOS LINDOS' },
+            { time: 102, text: 'Comprensión bendita, un par de dilemas' },
+            { time: 105, text: 'Humanidad maldita, cuerpo que tirita' },
+            { time: 107, text: 'Mirada que desvela, de esas que te hielan' },
+            { time: 110, text: 'Gratitud infinita, noches sin estrellas' },
+            { time: 113, text: 'O con miles de ellas, ALMA DINAMITA' },
+            { time: 116, text: 'Voces en la cripta, felicidad compleja' },
+            { time: 119, text: 'Una espera escrita, angustias bellas' },
+            { time: 121, text: 'Onomatopeya, río que se agita' },
+            { time: 123, text: 'Una luz interna, fuego que habilita' },
+            { time: 126, text: 'Lágrima que quema, protección eterna' },
+            { time: 128, text: 'Un amor que grita' },
+            { time: 130, text: '...' },
+            { time: 132, text: 'Cada vez que yo no me encuentro en mí, eh' },
+            { time: 136, text: 'Voy a vos para revivir, eh' },
+            { time: 138, text: '...' },
+            { time: 140, text: 'Yo voy a estar ahí, yeh' },
+            { time: 144, text: 'Siempre podés venir' },
+            { time: 147, text: '...' },
+            { time: 147, text: 'Ella camina con su viajero' },
+            { time: 150, text: 'Entre desastres y prisioneros' },
+            { time: 154, text: 'Cuando el destino se pone austero' },
+            { time: 158, text: 'Sale al rescate lo verdadero' },
+            { time: 161, text: 'Ella camina con su viajero' },
+            { time: 164, text: 'Entre desastres y prisioneros' },
+            { time: 168, text: 'Cuando el destino se pone austero' },
+            { time: 171, text: 'Sale al rescate lo verdadero' },
+            { time: 174, text: 'TE AMOOOOOO' }
+            ]
+        },
+        {
+            audio: backgroundAudio2,
+            lyrics: [
+                { time: 1.5, text: '...' },
+                { time: 3.5, text: 'No me imaginé que funcionaba así,' },
+                { time: 6.2, text: 'No buscaba amor' },
+                { time: 8, text: 'Y un día te encontré, ' },
+                { time: 9.5, text: 'Estaba vivo, pero con vos comencé a vivir' },
+                { time: 12.5, text: 'Fuiste una bendición, ' },
+                { time: 14, text: 'Me queda agradecer' },
+                { time: 16, text: 'Sos ese cuento del que no quiero saber final' },
+                { time: 19, text: 'Ese cometa que tuve suerte de presenciar' },
+                { time: 22, text: 'El mundo es feo y su pasado provocó ansiedad' },
+                { time: 26, text: 'Me iré al infierno pero en tierra' },
+                { time: 27, text: '...' },
+                { time: 29, text: 'Si algún día de estos se hace gris tu cielo' },
+                { time: 32, text: 'Lo pintarás mirando un río' },
+                { time: 35, text: 'Las lágrimas y el frío te hicieron de hielo' },
+                { time: 38, text: 'Y daré la piel, pa\' servir de abrigo' },
+                { time: 41, text: 'Y aunque el orgullo a veces ocultó mis miedo\'' },
+                { time: 44, text: 'Temo a caer y que no estés conmigo' },
+                { time: 48, text: 'Te ofrezco amor real de un corazón sincero' },
+                { time: 51, text: 'Y quemar la llave que abrió el laberinto' },
+                { time: 54, text: 'Si algún día de estos se hace gris tu cielo' },
+                { time: 58, text: 'Lo pintarás mirando un río' },
+                { time: 60, text: 'Las lágrimas y el frío te hicieron de hielo' },
+                { time: 64, text: 'Y daré la piel, pa\' servir de abrigo' },
+                { time: 67, text: 'Y aunque el orgullo a veces ocultó mis miedo\'' },
+                { time: 70, text: 'Temo a caer y que no estés conmigo' },
+                { time: 73, text: 'Te ofrezco amor real de un corazón sincero' },
+                { time: 76, text: 'Y quema la llave que abrió el laberinto' },
+                { time: 80, text: '...' },
+                { time: 82, text: 'Mai' },
+                { time: 85, text: 'Mai' },
+                { time: 88, text: 'Mai' },
+                { time: 92, text: '...' },
+                { time: 95, text: 'Hoy el tiempo no perdona' },
+                { time: 100, text: 'Y el ambiente raro, pero solo esa persona' },
+                { time: 106, text: 'Me dio su mano' },
+                { time: 108, text: 'Tu alma era viajera y sola' },
+                { time: 112, text: 'Sé que es un descaro' },
+                { time: 114, text: 'Y la mía se desmorona' },
+                { time: 118.5, text: 'Pero combinamos' },
+                { time: 121, text: 'Lograste comprender lo que ni yo entendí' },
+                { time: 124, text: 'Tus palabras hoy, fueron mirada ayer' },
+                { time: 127, text: 'Preferiste escuchar antes que verme sonreír' },
+                { time: 130, text: 'ME HICISTE SER MEJOR, ME QUEDA AGRADECER' },
+                { time: 133, text: 'Si algún día de estos ya seré tu cielo' },
+                { time: 137, text: 'Lo pintará mirando un río' },
+                { time: 139, text: 'Las lágrimas y el frío te hicieron de hielo' },
+                { time: 142, text: 'Y daré la piel pa\' servir de abrigo' },
+                { time: 146, text: 'Y aunque el orgullo a veces ocultó mis miedo\'' },
+                { time: 149, text: 'Temo a caer y que no estés conmigo' },
+                { time: 152, text: 'Te ofrezco amor real de un corazón sincero' },
+                { time: 155, text: 'Y quema la llave que abrió el laberinto' },
+                        ]
+                    },
+                    {
+            audio: backgroundAudio3,
+            lyrics: [
+                { time: 0, text: '...' },
+                { time: 0.7, text: 'Tengo ganas' },
+                { time: 3, text: 'Tengo tiempo y mil canciones que cantarte' },
+                { time: 8, text: 'Tengo historias, tengo cosas que contarte' },
+                { time: 13, text: 'Mas hoy, tengo tu llegada y mi mano,' },
+                { time: 17.5, text: 'Voy a darte' },
+                { time: 19.5, text: "Es tan lindo" },
+                { time: 22.5, text: "Cuando existe un sentimiento y cuando quieres" },
+                { time: 27, text: "Cuando cuentas sin callarte qué prefieres" },
+                { time: 32, text: "Por ejemplo, yo quisiera si no es mucho," },
+                { time: 37, text: "Que te quedes" },
+                { time: 41, text: "Dame solo un momento" },
+                { time: 44, text: "Dame amor del más cierto" },
+                { time: 46.7, text: "No te pido más nada" },
+                { time: 49, text: "…" },
+                { time: 50, text: "Dame de tu mirada" },
+                { time: 53, text: "Y de tus sentimientos" },
+                { time: 56, text: "Siente si estoy sintiendo" },
+                { time: 59, text: "No te quedes" },
+                { time: 61, text: "No revises el pasado que entristece" },
+                { time: 65, text: "…" },
+                { time: 66, text: "No te niegues si el amor, te pertenece" },
+                { time: 71, text: "Ven y siéntate a mi lado, mira el día" },
+                { time: 76, text: "Que amanece" },
+                { time: 79, text: "…" },
+                { time: 101, text: "No respondas callada" },
+                { time: 104, text: "Mucho menos ahora" },
+                { time: 107, text: "No me digas mañana" },
+                { time: 109, text: "…" },
+                { time: 111.5, text: "Es que vi que pasabas" },
+                { time: 114, text: "Me acerqué porque pienso" },
+                { time: 116, text: "Que por ti yo esperaba" },
+                { time: 119, text: "Tengo ganas" },
+                { time: 122, text: "Tengo tiempo y mil canciones que cantarte" },
+                { time: 126.5, text: "Tengo historias, tengo cosas que contarte" },
+                { time: 133, text: "Mas hoy, tengo tu llegada y mi mano," },
+                { time: 136, text: "Voy a darteeeeeeee" },
+                { time: 142, text: "…" },
+                { time: 144.5, text: "Voy a darte" }
+                        ]
+                    }, 
+                    {
+            audio: backgroundAudio4,
+            lyrics: [
+            { time: 1, text: "Estoy sentado en la última banca del parque" },
+            { time: 3, text: "Estoy mirando tus ojitos que me abruman" },
+            { time: 6, text: "Estoy cantando una canción que nadie sabe" },
+            { time: 9, text: "Y poco a poco te estoy bajando la luna" },
+            { time: 13, text: "…" },
+            { time: 15, text: "Estoy mirando el corazón que se me sale" },
+            { time: 17, text: "Y me parece que todo es una locura" },
+            { time: 20, text: "Pero no me interesa nada en este instante" },
+            { time: 23, text: "Si a ti no te importa que ya es más de la una" },
+            { time: 27, text: "…" },
+            { time: 28, text: "Te estoy mirando y acercándome un poco a ti" },
+            { time: 31, text: "Ya en otro plano puedo tocar esta canción" },
+            { time: 34, text: "Y en el momento justo cuando dices que sí" },
+            { time: 36, text: "Suena un timbre y enseguida despierto yo" },
+            { time: 39, text: "Y despierto porque todo ha sido un sueño" },
+            { time: 44, text: "Porque el mundo no es tan bello" },
+            { time: 46, text: "Y que todo se termina" },
+            { time: 51, text: "Y me quedo otra vez" },
+            { time: 52, text: "Mirando a la pared" },
+            { time: 53, text: "Y no puedo dormir" },
+            { time: 55, text: "Y me siento morir" },
+            { time: 56.5, text: "Y me siento perder" },
+            { time: 58, text: "Porque todo mi mundo es infierno" },
+            { time: 61, text: "…" },
+            { time: 62, text: "Y despierto y mi vida sigue triste" },
+            { time: 66, text: "Porque desde que te fuiste de mi lado" },
+            { time: 69, text: "Solo queda oscuridad y silencio" },
+            { time: 73, text: "Y despierto" },
+            { time: 75, text: "…" },
+            { time: 126, text: "No hay un pintor que pueda pintar el paisaje" },
+            { time: 129, text: "Que como cómplices en la noche nos ayuda" },
+            { time: 132, text: "Ni un escritor que pueda narrar en detalle" },
+            { time: 135, text: "Esa expresión de tu mirada, tu hermosura" },
+            { time: 140, text: "Ay algo me dices, pero no logro escucharte" },
+            { time: 143, text: "Pero tu voz está cargada de ternura" },
+            { time: 146, text: "Estás segura que te quiero más que a nadie" },
+            { time: 149, text: "Y que tú estás enamorada ya no hay duda" },
+            { time: 153, text: "Estamos solos y te acercas un poco a mí" },
+            { time: 156, text: "Te pregunto lo que no se pregunta hoy" },
+            { time: 159, text: "Y en el momento justo cuando dices que sí" },
+            { time: 162, text: "Suena un timbre y enseguida despierto yo" },
+            { time: 165, text: "Y despierto porque todo ha sido un sueño" },
+            { time: 169, text: "Porque el mundo no es tan bello" },
+            { time: 172, text: "Y que todo se termina" },
+            { time: 176, text: "Y me quedo otra vez" },
+            { time: 178, text: "Mirando a la pared" },
+            { time: 179, text: "Y no puedo dormir" },
+            { time: 181, text: "Y me siento morir" },
+            { time: 182, text: "Y me siento perder" },
+            { time: 183, text: "Porque todo mi mundo es un sueño" },
+            { time: 187, text: "Y despierto y mi vida sigue triste" },
+            { time: 192, text: "Porque desde que te fuiste de mi lado" },
+            { time: 195, text: "Solo queda oscuridad y silencio" },
+            { time: 198, text: "Y despierto" },
+            { time: 200, text: "..." }
+                        ]
+                    },
+                    {
+            audio: backgroundAudio5,
+            lyrics: [
+            { time: 0, text: "…" },
+            { time: 3, text: "Llegó la nota más linda a mi canción" },
+            { time: 6, text: "La muchachita que quiero de verdad" },
+            { time: 9, text: "La que una noche, mi novia se volvió" },
+            { time: 12, text: "Que se robó el alma y mi vida sin pensar" },
+            { time: 15, text: "Que con sus besos de mis sueños se apropió" },
+            { time: 18, text: "Con su ternura y su figura angelical" },
+            { time: 21, text: "La que me hizo olvidar tanto dolor" },
+            { time: 24, text: "La inspiración de un poeta y su cantar" },
+            { time: 27, text: "…" },
+            { time: 28, text: "Creo que ya encontré la muchachita de mis sueños" },
+            { time: 34, text: "La que orgullosamente me tiene enamorado" },
+            { time: 39, text: "…" },
+            { time: 40, text: "Ahora si es verdad y con razón, que estoy contento" },
+            { time: 46, text: "Porque ya encontré la muchachita que he soñado" },
+            { time: 51.5, text: "Y ya no puedo vivir sin ti" },
+            { time: 53, text: "Te amo y nunca te voy a dejar" },
+            { time: 56, text: "Por siempre y para siempre tú serás" },
+            { time: 59, text: "De mi vida lo más lindo" },
+            { time: 62, text: "Y te juro, me siento feliz" },
+            { time: 65, text: "Y a todo el mundo le voy a gritar" },
+            { time: 68, text: "Que mi alma solo pertenece a ti" },
+            { time: 70.8, text: "Gracias por estar conmigo, conmigo" },
+            { time: 79, text: "…" },
+            { time: 90, text: "Cuando estoy lejos me preocupa ¿dónde estás?" },
+            { time: 92, text: "Cuando estoy cerca, no me quiero ir de ti" },
+            { time: 95, text: "Que cada día yo te quiero más y más" },
+            { time: 98, text: "Cada segundo me enamoro más de ti" },
+            { time: 101, text: "Cien pretendientes te quieren perseguir" },
+            { time: 104, text: "Deciles niña, que tú tienes en quien pensar" },
+            { time: 107, text: "Alguien que al 100% confía en ti" },
+            { time: 109.7, text: "Y que te adora y que pa' siempre te va a amar" },
+            { time: 114, text: "Creo que ya encontré la muchachita de mis sueños" },
+            { time: 119, text: "La que orgullosamente me tiene enamorado" },
+            { time: 125, text: "Ahora si es verdad y con razón, que estoy contento" },
+            { time: 131, text: "Porque ya encontré la muchachita que he soñado" },
+            { time: 135, text: "Ya no puedo vivir sin ti" },
+            { time: 138, text: "Te amo y nunca te voy a dejar" },
+            { time: 140.7, text: "Por siempre y para siempre tú serás" },
+            { time: 143.8, text: "De mi vida lo más lindo" },
+            { time: 146, text: "Y te juro, me siento feliz" },
+            { time: 149.5, text: "Y a todo el mundo le voy a gritar" },
+            { time: 151.8, text: "Que mi alma solo pertenece a ti" },
+            { time: 154.5, text: "Gracias por estar conmigo" },
+            { time: 158, text: "Y ya no puedo vivir sin ti" },
+            { time: 160.6, text: "Te amo y nunca te voy a dejar" },
+            { time: 162, text: "Por siempre y para siempre tú serás" },
+            { time: 165.7, text: "De mi vida lo más lindo" },
+            { time: 169, text: "Y te juro, me siento feliz" },
+            { time: 171.7, text: "Y a todo el mundo le voy a gritar" },
+            { time: 174, text: "Que mi alma solo pertenece a ti" },
+            { time: 177, text: "Gracias por estar conmigo" },
+            { time: 181, text: "Conmigo" }
+                        ]
+                    },
+                    {
+            audio: backgroundAudio6,
+            lyrics: [
+            { time: 0, text: "…" },
+        { time: 4, text: "Siento" },
+        { time: 5.6, text: "…" },
+        { time: 7, text: "Que no te he dejado de pensar" },
+        { time: 10, text: "Desde ese momento" },
+        { time: 12.6, text: "…" },
+        { time: 14.8, text: "Que contigo estaría bien" },
+        { time: 18, text: "…" },
+        { time: 19, text: "Que tus ojos son perfectos y" },
+        { time: 23, text: "Pienso" },
+        { time: 25, text: "Que ya es hora de empezar" },
+        { time: 28, text: "Algo en serio" },
+        { time: 30, text: "Y creo que nada me impide" },
+        { time: 34, text: "Decirte que estaría bien" },
+        { time: 37.5, text: "Besarnos una vez y otra vez" },
+        { time: 41, text: "Hacer el amor por siempre, una y otra vez" },
+        { time: 46, text: "Tocarnos una vez y otra vez" },
+        { time: 50, text: "Sentir tu piel junto a la mía una vez," },
+        { time: 53, text: "y otra vez, y otra vez" },
+        { time: 56, text: "Uh, uh-uh" },
+        { time: 60, text: "Uh-uh-uh, uh" },
+        { time: 64.7, text: "Uh-uh, uh-uh-uh, uh-uh-uh, uh-uh-uh" },
+        { time: 70, text: "Uh-uh-uh, uh" },
+        { time: 74.6, text: "Siento" },
+        { time: 77.5, text: "Que no te he dejado de pensar" },
+        { time: 80.6, text: "Desde ese momento" },
+        { time: 83, text: "…" },
+        { time: 85, text: "Que contigo estaría bien" },
+        { time: 89.5, text: "Que tus ojos son perfectos y" },
+        { time: 93.4, text: "Pienso" },
+        { time: 95, text: "Que ya es hora de empezar" },
+        { time: 98.5, text: "Algo en serio" },
+        { time: 100.8, text: "Y creo que nada me impide" },
+        { time: 104.4, text: "Decirte que estaría bien" },
+        { time: 107.6, text: "Besarnos una vez y otra vez" },
+        { time: 112, text: "Hacer el amor por siempre, una y otra vez" },
+        { time: 116.6, text: "Tocarnos una vez y otra vez" },
+        { time: 120, text: "Sentir tu piel junto a la mía una vez," },
+        { time: 124, text: "Y otra vez, y otra vez" },
+        { time: 126, text: "Uh, uh-uh" },
+        { time: 131, text: "Uh-uh-uh, uh" },
+        { time: 133, text: "Uh-uh, uh-uh-uh, uh-uh-uh, uh-uh-uh" },
+        { time: 139, text: "Uh-uh-uh, uh" },
+        { time: 142, text: "Y siento que estaría bien" },
+        { time: 146, text: "…" },
+        { time: 147, text: "Besarnos una vez y otra vez" },
+        { time: 151, text: "Hacer el amor por siempre, una y otra vez" },
+        { time: 156, text: "Tocarnos una vez y otra vez" },
+        { time: 160, text: "Sentir tu piel junto a la mía una vez," },
+        { time: 163, text: "Y otra vez, y otra vez" },
+        { time: 166, text: "Uh-uh-uh, uh" },
+        { time: 170, text: "Uh-uh, uh-uh-uh, uh-uh-uh, uh-uh-uh" },
+        { time: 174, text: "Uh-uh-uh, uh" }
+                        ]
+                    },
+                    {
+            audio: backgroundAudio7,
+            lyrics: [
+            { time: 0, text: "Dime si te gustaría" },
+            { time: 1, text: "…" },
+            { time: 3.7, text: "Vamos a escribir nuestras iniciales juntas, eh" },
+            { time: 7, text: "La verdad que tú me gustas" },
+            { time: 10, text: "En invierno y en verano y" },
+            { time: 12, text: "Si te hago la pregunta" },
+            { time: 14.5, text: "El horóscopo dice que somos compatibles" },
+            { time: 17.5, text: "Y eso que yo no creía" },
+            { time: 19, text: "Pero habrá que hacerle caso" },
+            { time: 21, text: "Y yo te aviso, como subas otra foto en la playa, te caso" },
+            { time: 26, text: "Mami, dime si te gusto solo por si acaso" },
+            { time: 29, text: "…" },
+            { time: 30, text: "Que de tanto perder le perdí el miedo al fracaso y" },
+            { time: 35, text: "Estoy pensando si decirte que me gustas tanto" },
+            { time: 38, text: "…" },
+            { time: 39.5, text: "Que me gustas tanto" },
+            { time: 40.5, text: "…" },
+            { time: 42, text: "Que yo te quiero dormida" },
+            { time: 44, text: "En la cama con mi hoodie" },
+            { time: 47, text: "Dime si te gustaría" },
+            { time: 49.5, text: "Quiero ser todos tus hobbies, mami" },
+            { time: 53, text: "Solo una cosa te pediría" },
+            { time: 55, text: "Que si te doy mi corazón" },
+            { time: 58, text: "Me lo cuides todos los días" },
+            { time: 60, text: "…" },
+            { time: 61, text: "Necesito algo que no sea temporal" },
+            { time: 64, text: "Alguien para presumir cuando te lleve a comer" },
+            { time: 66.5, text: "Con mi familia en Navidad" },
+            { time: 69, text: "No sé si me entiendes" },
+            { time: 71, text: "Que yo sé que tienes más pretendientes" },
+            { time: 73, text: "Pero no tienen nada que ofrecerte" },
+            { time: 76, text: "Quizá alguno te compre ropa de marca" },
+            { time: 77.5, text: "Pero tú prefieres ponerte la mía por suerte" },
+            { time: 80, text: "Y cada vez que coinciden las miradas" },
+            { time: 84, text: "Pienso en si tú sientes lo mismo" },
+            { time: 86, text: "Pero tampoco me dices nada" },
+            { time: 89, text: "Y cuando te vas" },
+            { time: 93, text: "Siempre me giro por si esta" },
+            { time: 98, text: "Vez me decido" },
+            { time: 99, text: "Que yo te quiero dormida" },
+            { time: 102.7, text: "En la cama con mi hoodie" },
+            { time: 104.4, text: "Dime si te gustaría" },
+            { time: 107.3, text: "Quiero ser todos tus hobbies, mami" },
+            { time: 109.6, text: "…" },
+            { time: 111, text: "Solo una cosa te pediría" },
+            { time: 113, text: "Que si te doy mi corazón" },
+            { time: 115, text: "Me lo cuides todos los días" },
+            { time: 118, text: "…" },
+            { time: 119, text: "Solo imagina" },
+            { time: 122, text: "Mami, dime si te gusto" },
+            { time: 123.6, text: "Para ser tú y yo y ya" },
+            { time: 126, text: "Tú y yo y nadie más" },
+            { time: 129, text: "Hay cosas" },
+            { time: 130, text: "Que no te dije" },
+            { time: 133, text: "Aquella noche" },
+            { time: 135, text: "Pero creo que" },
+            { time: 138, text: "En mi tablero falta reina, no tengo castillo" },
+            { time: 140.7, text: "Pero puedes quedarte en mi casa cuando quieras" },
+            { time: 143, text: "Solo júrame que tú no serás pasajera" },
+            { time: 145.7, text: "Y antes de que te fueras" },
+            { time: 147, text: "Te dije \"tú solo confía\"" },
+            { time: 150, text: "Yo también tengo miedo" },
+            { time: 152, text: "De estrellarme si acelero" },
+            { time: 154.6, text: "Pero contigo no freno" },
+            { time: 157, text: "Que yo te quiero dormida" },
+            { time: 159, text: "En la cama con mi hoodie" },
+            { time: 162, text: "Dime si te gustaría" },
+            { time: 164, text: "Quiero ser todos tus hobbies, mami" },
+            { time: 168.6, text: "Solo una cosa te pediría" },
+            { time: 170, text: "Que si te doy mi corazón" },
+            { time: 173, text: "Me lo cuides todos los días" }
+                        ]
+                    },{
+            audio: backgroundAudio8,
+            lyrics: [
+            { time: 0, text: "…" },
+    { time: 12, text: "Tan Bonita" },
+    { time: 14, text: "…" },
+    { time: 15.3, text: "Que le da celos al cielo" },
+    { time: 18.5, text: "Le va bien lo que se ponga" },
+    { time: 21, text: "Y no arregla su cabello" },
+    { time: 24.4, text: "La critican" },
+    { time: 26, text: "…" },
+    { time: 27.5, text: "Por qué odia usar tacones" },
+    { time: 31, text: "No le gusta ir a fiestas" },
+    { time: 34, text: "Y lee libro por deporte" },
+    { time: 39, text: "Quiero que aparezca" },
+    { time: 41.6, text: "…" },
+    { time: 43, text: "Y presumirla a mis amigos como la primera" },
+    { time: 48, text: "Que me robo, el corazón…" },
+    { time: 52, text: "Oh no no no Oh" },
+    { time: 56, text: "Déjame explicarte" },
+    { time: 61, text: "Que te quiero Oh" },
+    { time: 64, text: "Y no te conozco, no te tengo Oh" },
+    { time: 68, text: "Déjame contarte" },
+    { time: 73, text: "Que te sueño Oh" },
+    { time: 77, text: "La mujer perfecta para mi" },
+    { time: 81, text: "Oh" },
+    { time: 83, text: "Oh no" },
+    { time: 86, text: "…" },
+    { time: 92.6, text: "Me regala" },
+    { time: 94, text: "…" },
+    { time: 96, text: "Discos y sonrisas" },
+    { time: 98.7, text: "No me hace esperarla" },
+    { time: 102, text: "Y no elige mis camisas" },
+    { time: 106, text: "…" },
+    { time: 107, text: "Quiero que aparezca" },
+    { time: 109, text: "…" },
+    { time: 111, text: "Y presumirla a mis amigos como la primera" },
+    { time: 116, text: "Que me robo, el corazón" },
+    { time: 118.7, text: "…" },
+    { time: 120, text: "Oh no no no no Oh" },
+    { time: 124, text: "Déjame explicarte" },
+    { time: 129, text: "Que te quiero Oh" },
+    { time: 131, text: "…" },
+    { time: 132.7, text: "Y no te conozco no te tengo oh" },
+    { time: 136, text: "Déjame contarte que te sueño oh oh oh" },
+    { time: 145.6, text: "La mujer perfecta para mi" },
+    { time: 149.4, text: "…" },
+    { time: 173.5, text: "Déjame explicarte" },
+    { time: 179, text: "Que te quiero Oh" },
+    { time: 181, text: "…" },
+    { time: 182, text: "Y no te conozco, no te tengo Oh" },
+    { time: 186, text: "Déjame contarte" },
+    { time: 191, text: "Que te sueño oh oh oh" },
+    { time: 195, text: "La mujer perfecta para mi" },
+    { time: 198.7, text: "…" }
+                        ]
+                    },
+                    {
+            audio: backgroundAudio9,
+            lyrics: [
+            { time: 0, text: "…" },
+    { time: 4, text: "Recuerdo ese día que te vi" },
+    { time: 6, text: "Una obra de arte delante de mí" },
+    { time: 9, text: "Esas uñas parecían marfil" },
+    { time: 11, text: "Y tú brillaba', pero el día era gris" },
+    { time: 13, text: "No tardé ni diez en ponerme pa' ti" },
+    { time: 15, text: "…" },
+    { time: 17, text: "Con lo' mío', somo' treciento', a la cero, cuatrociento'" },
+    { time: 20, text: "Con la botella en mano, gastando lo' de quiniento'" },
+    { time: 22, text: "El mundo atrasado, parece 1800" },
+    { time: 24.7, text: "Contigo me acelero, Kawasaki 900" },
+    { time: 26.8, text: "Desde que te conocí, no me va tan mal" },
+    { time: 29, text: "Casi que me tiene tocando el sky" },
+    { time: 31.5, text: "Cruzamo' lo' lazo', como las Off-White" },
+    { time: 33.3, text: "Ella me levantó, como dijo DY" },
+    { time: 36, text: "Y si me pide' la Luna, te la bajo" },
+    { time: 38, text: "Para mí, que soy una superestrella," },
+    { time: 39.4, text: "No me va a costar trabajo" },
+    { time: 41, text: "Después del show, contamo' lo' fajo'" },
+    { time: 43, text: "Subí conmigo, que venimos de abajo" },
+    { time: 45, text: "Desde que te conozco, tengo una misión" },
+    { time: 47, text: "Y te hago esta canción para robarte el cora" },
+    { time: 49.8, text: "No me hable' de signo', háblame de vos" },
+    { time: 52, text: "Tengo curiosidad, baby, me pones toda" },
+    { time: 54, text: "Le pido al Duko que me haga la dos" },
+    { time: 56.7, text: "Caemo' a la Bresh por si hoy nos toca" },
+    { time: 58, text: "Cuando nos cruzamos, siempre te hablo yo" },
+    { time: 61, text: "Que cómo has estado, quién te devora" },
+    { time: 63, text: "Eres para mí" },
+    { time: 65, text: "Toda una eternidad, como Rosa para Rauw" },
+    { time: 68, text: "Eres para mí" },
+    { time: 69, text: "Sin la espina, no es la rosa; sin las olas, no es el mar" },
+    { time: 71.8, text: "Eres para mí-mí" },
+    { time: 73, text: "Como noche' en soledad y botellas de alcohol" },
+    { time: 77, text: "Eres para mí-mí" },
+    { time: 78, text: "Como el paso de las hora' y las agujas del reloj" },
+    { time: 81.6, text: "Eres para mí…" },
+    { time: 84, text: "Eres para mí" },
+    { time: 86, text: "Eres para mí…" },
+    { time: 88, text: "Eres para mí" },
+    { time: 90.4, text: "Prrrrrr" },
+    { time: 92.5, text: "Hace lo que quiere y nace" },
+    { time: 93.6, text: "Dentro mío una actitu' salvaje" },
+    { time: 94.7, text: "En el culo se puso un tatuaje con mis iniciales" },
+    { time: 97, text: "¡Hey!" },
+    { time: 98, text: "Estoy imaginándome ciudades, como Lennon" },
+    { time: 100, text: "Juro que por vos, yo gasto mi dinero" },
+    { time: 102, text: "Te llevo de vacaciones en enero" },
+    { time: 104, text: "De vos, hablan todas mis frases, me dejas sin aire" },
+    { time: 107, text: "Cada vez que, dentro mío, yo te tengo" },
+    { time: 108.9, text: "(Ere' para mí-mí)" },
+    { time: 110, text: "Pa' que retocen, como Tego" },
+    { time: 112, text: "Ella se pone caliente, me dice: Vámono' a fuego" },
+    { time: 115, text: "Encajamo' como lego" },
+    { time: 117, text: "Ella conoce mi alter ego" },
+    { time: 118, text: "Desde que te conozco, tengo una misión" },
+    { time: 120.7, text: "Y te hago esta canción para robarte el cora" },
+    { time: 122.8, text: "No me hable' de signo', háblame de vos" },
+    { time: 125, text: "Tengo curiosidad, baby, me pones toda" },
+    { time: 127, text: "Le pido al Duko que me haga la dos" },
+    { time: 129, text: "Caemo' a la Bresh por si hoy nos toca" },
+    { time: 132, text: "Cuando nos cruzamos, siempre te hablo yo" },
+    { time: 134.5, text: "Que cómo has estado, quién te devora" },
+    { time: 136, text: "Eres para mí" },
+    { time: 138, text: "Toda una eternidad, como Rosa para Rauw" },
+    { time: 140, text: "…" },
+    { time: 141, text: "Eres para mí" },
+    { time: 142, text: "Sin la espina, no es la rosa; sin las olas, no es el mar" },
+    { time: 145, text: "Eres para mí-mí" },
+    { time: 146, text: "Como noche' en soledad y botellas de alcohol" },
+    { time: 150, text: "Eres para mí-mí" },
+    { time: 151, text: "Como el paso de las hora' y las agujas del reloj" },
+    { time: 155.4, text: "Eres para mí…" },
+    { time: 157, text: "Eres para mí" },
+    { time: 159, text: "Eres para mí…" },
+    { time: 161.5, text: "Eres para mí" },
+    { time: 164.7, text: "Hace lo que quiere y nace" },
+    { time: 166, text: "Dentro mío una actitu' salvaje" },
+    { time: 167.7, text: "En el culo se puso un tatuaje con mis iniciales" }
+                        ]
+                    },                        
+                    
+                ];
+
+                let currentSong = null;
+    let lyricsIndex = 0;
+
+    function updateLyrics() {
+        const currentTime = currentSong.audio.currentTime;
+        if (lyricsIndex < currentSong.lyrics.length && currentTime >= currentSong.lyrics[lyricsIndex].time) {
+            lyricsContainer.textContent = currentSong.lyrics[lyricsIndex].text;
+            lyricsContainer.classList.add('visible');
+            lyricsIndex++;
+        }
+    }
+
+    function playNextSong() {
+        if (currentSong) {
+            currentSong.audio.pause();
+            currentSong.audio.currentTime = 0;
+            currentSong.audio.removeEventListener('timeupdate', updateLyrics);
+            currentSong.audio.removeEventListener('ended', playNextSong);
+        }
+
+        currentSong = songs[Math.floor(Math.random() * songs.length + Math.random())]; // Si da error para escoger cancion agregue otro Math.random()
+        currentSong.audio.volume = 1;
+        currentSong.audio.play();
+        lyricsContainer.textContent = '';
+        lyricsContainer.classList.remove('visible');
+        lyricsIndex = 0;
+        currentSong.audio.addEventListener('timeupdate', updateLyrics);
+        currentSong.audio.addEventListener('ended', playNextSong);
+    }
+
+    openButton.addEventListener('click', () => {
+        envelope.classList.add('open');
+        heart.style.opacity = 1;
+        heartLeft.style.opacity = 1;
+        heartRight.style.opacity = 1;
+        heart.classList.add('heart-animate');
+        heartLeft.classList.add('heart-left-animate');
+        heartRight.classList.add('heart-right-animate');
+        setTimeout(() => {
+            paperText.classList.add('visible');
+        }, 500);
+
+        playNextSong();
+    });
+
+    closeButton.addEventListener('click', () => {
+        envelope.classList.remove('open');
+        paperText.classList.remove('visible');
+        heart.classList.remove('heart-animate');
+        heartLeft.classList.remove('heart-left-animate');
+        heartRight.classList.remove('heart-right-animate');
+        heart.style.opacity = 0;
+        heartLeft.style.opacity = 0;
+        heartRight.style.opacity = 0;
+
+        if (currentSong) {
+            currentSong.audio.pause();
+            currentSong.audio.currentTime = 0;
+            lyricsContainer.classList.remove('visible');
+            currentSong.audio.removeEventListener('timeupdate', updateLyrics);
+            currentSong.audio.removeEventListener('ended', playNextSong);
+        }
+        
+    });
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+            const modals = document.querySelectorAll('.modal');
+            const closeButtons = document.querySelectorAll('.close');
+
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const modal = button.closest('.modal');
+                    const video = modal.querySelector('video');
+                    if (video) {
+                        video.pause();
+                        video.currentTime = 0; // Reinicia el video
+                    }
+                    modal.style.display = 'none';
+                });
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target.classList.contains('modal')) {
+                    const video = event.target.querySelector('video');
+                    if (video) {
+                        video.pause();
+                        video.currentTime = 0; // Reinicia el video
+                    }
+                    event.target.style.display = 'none';
+                }
+            });
+
+            const anchors = document.querySelectorAll('.gallery a');
+            anchors.forEach(anchor => {
+                anchor.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const modalId = anchor.getAttribute('href').substring(1);
+                    const modal = document.getElementById(modalId);
+                    const video = modal.querySelector('video');
+                    if (video) {
+                        video.play();
+                    }
+                    modal.style.display = 'flex';
+                });
+            });
+        });
+
+          // Obtener los elementos de audio y botones
+        const musicaFondo = document.getElementById('musicaFondo');
+        const iniciarMusica = document.getElementById('iniciarMusica');
+
+        // Añadir evento de clic al botón "Iniciar música"
+        iniciarMusica.addEventListener('click', function() {
+            musicaFondo.play();
+            iniciarMusica.style.display = 'none';
+            openButton.style.display = 'inline';
+            closeButton.style.display = 'inline';
+        });
+
+        // Añadir evento de clic al botón "Abrir carta"
+        openButton.addEventListener('click', function() {
+            musicaFondo.pause();
+        });
+
+        // Añadir evento de clic al botón "Cerrar carta"
+        closeButton.addEventListener('click', function() {
+            musicaFondo.play();
+        });
+
+
+</script>
+</body>
+</html>
